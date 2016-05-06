@@ -21,14 +21,14 @@ public class ClientTest {
 
   @Test
   public void Client_instantiatesCorrectly_true() {
-    Client myClient = new Client("James");
+    Client myClient = new Client("James", 1);
     assertEquals(true, myClient instanceof Client);
   }
 
   @Test
   public void getName_clientInstantiatesWithName_String() {
-    Client myClient = new Client("Tiffany");
-    assertEquals("Tiffany", myClient.getName());
+    Client myClient = new Client("James", 1);
+    assertEquals("James", myClient.getName());
   }
 
   @Test
@@ -38,21 +38,21 @@ public class ClientTest {
 
   @Test
   public void equals_returnsTrueIfNamesAretheSame() {
-    Client firstClient = new Client("James");
-    Client secondClient = new Client("James");
+    Client firstClient = new Client("James", 1);
+    Client secondClient = new Client("James", 1);
     assertTrue(firstClient.equals(secondClient));
   }
 
   @Test
   public void save_returnsTrueIfNamesAretheSame() {
-    Client myClient = new Client("James");
+    Client myClient = new Client("James", 1);
     myClient.save();
     assertTrue(Client.all().get(0).equals(myClient));
   }
 
   @Test
   public void save_assignsIdToObject() {
-    Client myClient = new Client("Merry");
+    Client myClient = new Client("James", 1);
     myClient.save();
     Client savedClient = Client.all().get(0);
     assertEquals(myClient.getId(), savedClient.getId());
@@ -60,10 +60,20 @@ public class ClientTest {
 
   @Test
   public void find_findsClientInDatabase_true() {
-    Client myClient = new Client("James");
+    Client myClient = new Client("James", 1);
     myClient.save();
     Client savedClient = Client.find(myClient.getId());
     assertTrue(myClient.equals(savedClient));
   }
+
+  @Test
+   public void save_savesStylistIdIntoDB_true() {
+     Stylist myStylist = new Stylist("Megan");
+     myStylist.save();
+     Client myClient = new Client("James", myStylist.getId());
+     myClient.save();
+     Client savedClient = Client.find(myClient.getId());
+     assertEquals(savedClient.getStylistId(), myStylist.getId());
+   }
 
 }
