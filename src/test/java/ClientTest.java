@@ -29,4 +29,9 @@ public class ClientTest {
     assertEquals("Tiffany", myClient.getName());
   }
 
+  @Test
+  public void all_emptyAtFirst() {
+    assertEquals(Client.all().size(), 0);
+  }
+
 }
