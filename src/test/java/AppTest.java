@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.fluentlenium.core.filter.FilterConstructor.*;
 import org.sql2o.*;
 import org.junit.*;
+import static org.junit.Assert.*;
 
 public class AppTest extends FluentTest {
   public WebDriver webDriver = new HtmlUnitDriver();
@@ -108,6 +109,31 @@ public class AppTest extends FluentTest {
     click("a", withText("Dax"));
     assertThat(pageSource()).contains("Dax");
     assertThat(pageSource()).contains("Go Back");
+  }
+
+  @Test
+  public void clientUpdate() {
+    Stylist myStylist = new Stylist("Debbie");
+    myStylist.save();
+    Client myClient = new Client("Dax", myStylist.getId());
+    myClient.save();
+    String clientPath = String.format("http://localhost:4567/stylists/%d/clients/%d", myStylist.getId(), myClient.getId());
+    goTo(clientPath);
+    fill("#name").with("Max");
+    submit("#update-client");
+    assertThat(pageSource()).contains("Max");
+  }
+
+  @Test
+  public void clientDelete() {
+    Stylist myStylist = new Stylist("Debbie");
+    myStylist.save();
+    Client myClient = new Client("Dax", myStylist.getId());
+    myClient.save();
+    String clientPath = String.format("http://localhost:4567/stylists/%d/clients/%d", myStylist.getId(), myClient.getId());
+    goTo(clientPath);
+    submit("#delete-client");
+    assertEquals(0, Client.all().size());
   }
 
 }
