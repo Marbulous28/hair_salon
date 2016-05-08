@@ -97,4 +97,17 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("James");
   }
 
+  @Test
+  public void clientShowPage() {
+    Stylist myStylist = new Stylist("Debbie");
+    myStylist.save();
+    Client myClient = new Client("Dax", myStylist.getId());
+    myClient.save();
+    String stylistPath = String.format("http://localhost:4567/stylists/%d", myStylist.getId());
+    goTo(stylistPath);
+    click("a", withText("Dax"));
+    assertThat(pageSource()).contains("Dax");
+    assertThat(pageSource()).contains("Go Back");
+  }
+
 }
