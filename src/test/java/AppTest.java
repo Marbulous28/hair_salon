@@ -54,10 +54,10 @@ public class AppTest extends FluentTest {
 
   @Test
   public void stylistIsDisplayedTest() {
-    goTo("http://localhost:4567/stylists/new");
-    fill("#name").with("Debbie");
-    submit(".btn");
-    click("a", withText("View stylists"));
+    Stylist myStylist = new Stylist("Debbie");
+    myStylist.save();
+    String stylistPath = String.format("http://localhost:4567/stylists/%d", myStylist.getId());
+    goTo(stylistPath);
     assertThat(pageSource()).contains("Debbie");
   }
 
@@ -80,6 +80,21 @@ public class AppTest extends FluentTest {
     click("a", withText("Debbie"));
     click("a", withText("Add a new client"));
     assertThat(pageSource()).contains("Add a Client for Debbie");
+  }
+
+  @Test
+  public void clientAreAddedAndDisplayed() {
+    goTo("http://localhost:4567/stylists/new");
+    fill("#name").with("Debbie");
+    submit(".btn");
+    click("a", withText("View stylists"));
+    click("a", withText("Debbie"));
+    click("a", withText("Add a new client"));
+    fill("#name").with("James");
+    submit(".btn");
+    click("a", withText("View stylists"));
+    click("a", withText("Debbie"));
+    assertThat(pageSource()).contains("James");
   }
 
 }
