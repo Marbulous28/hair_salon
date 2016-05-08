@@ -67,13 +67,21 @@ public class ClientTest {
   }
 
   @Test
-   public void save_savesStylistIdIntoDB_true() {
-     Stylist myStylist = new Stylist("Megan");
-     myStylist.save();
-     Client myClient = new Client("James", myStylist.getId());
-     myClient.save();
-     Client savedClient = Client.find(myClient.getId());
-     assertEquals(savedClient.getStylistId(), myStylist.getId());
-   }
+  public void save_savesStylistIdIntoDB_true() {
+    Stylist myStylist = new Stylist("Megan");
+    myStylist.save();
+    Client myClient = new Client("James", myStylist.getId());
+    myClient.save();
+    Client savedClient = Client.find(myClient.getId());
+    assertEquals(savedClient.getStylistId(), myStylist.getId());
+  }
+
+  @Test
+  public void update_updatesClientName_true() {
+    Client myClient = new Client("James", 1);
+    myClient.save();
+    myClient.update("Dax");
+    assertEquals("Dax", Client.find(myClient.getId()).getName());
+  }
 
 }
