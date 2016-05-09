@@ -9,7 +9,7 @@ In PSQL:
 * CREATE DATABASE hair_salon;
 * CREATE DATABASE hair_salon_test;
 * CREATE TABLE stylists (id serial PRIMARY KEY, name varchar);
-* CREATE TABLE clients (id serial PRIMARY KEY, name varchar);
+* CREATE TABLE clients (id serial PRIMARY KEY, name varchar, stylistId int);
 
 ##Set-Up: 
 Clone the repository to your desktop and run gradle, then open your browser and go to localhost:4567/
