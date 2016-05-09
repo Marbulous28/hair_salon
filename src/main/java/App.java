@@ -98,7 +98,5 @@ public class App {
       model.put("template", "templates/stylist.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
-
-
   }
 }
