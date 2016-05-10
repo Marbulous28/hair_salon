@@ -137,15 +137,13 @@ public class AppTest extends FluentTest {
   }
 
   @Test
-  public void stylistUpdate() {
-    Stylist myStylist = new Stylist("James");
+  public void stylistDelete() {
+    Stylist myStylist = new Stylist("Debbie");
     myStylist.save();
-    String stylistPath = String.format("http://localhost:4567/stylists/%d/", myStylist.getId());
+    String stylistPath = String.format("http://localhost:4567/stylists/%d", myStylist.getId());
     goTo(stylistPath);
-    fill("#name").with("xmas");
-    submit("#update-stylist");
-    click("a", withText("View stylists"));
-    assertThat(pageSource()).contains("xmas");
+    submit("#delete-client");
+    assertEquals(0, Client.all().size());
   }
 
 }
