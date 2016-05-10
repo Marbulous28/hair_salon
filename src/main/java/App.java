@@ -45,6 +45,16 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/stylists/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Stylist stylist = Stylist.find(Integer.parseInt(request.params("id")));
+      String name = request.queryParams("name");
+      stylist.update(name);
+      model.put("stylist", stylist);
+      model.put("template", "templates/stylist-success.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     get("stylists/:id/clients/new", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Stylist stylist = Stylist.find(Integer.parseInt(request.params(":id")));
@@ -55,14 +65,10 @@ public class App {
 
     post("/clients", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-
       Stylist stylist = Stylist.find(Integer.parseInt(request.queryParams("stylistId")));
-
       String name = request.queryParams("name");
-
       Client newClient = new Client(name, stylist.getId());
       newClient.save();
-
       model.put("stylist", stylist);
       model.put("template", "templates/stylist-clients-success.vtl");
       return new ModelAndView(model, layout);
